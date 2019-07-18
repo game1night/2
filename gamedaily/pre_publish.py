@@ -120,43 +120,30 @@ def pre_publish():
         return c
 
     c += '---\n'
-    c += 'title: "叮！游戏日报-{}"\n'.format(today)
+    c += 'title: "游戏日报-{}"\n'.format(today)
     c += 'categories: game daily\n'
     c += 'author: tingbot\n'
     c += '---\n\n\n'
     c += 'Hi, morning! What did I do yesterday? What will I do today? Are there any impediments in my way?\n\n'
     c += '#### Overview 概述\n\n'
-    c += '本期共收录{}篇，涉及{}个主题：'.format(num_article, num_topic, ''.join(c1))
-    # ===
-    c = a(c)
-    for i in df1.index:
-        if i == df1.shape[0] - 1:
-            c1.append('{}({})。\n\n'.format(i, df1[i]))
-        else:
-            c1.append('{}({})，'.format(i, df1[i]))
+    c += '本期共收录{}篇，涉及{}个主题：{}\n\n'.format(num_article, num_topic, ''.join(c1))
     c += '#### Kew words 关键词\n\n'
-    c += '![ting\'s-game-daily-today-keywords]({})\n\n'.format('../assets/img/gamedaily/' + fig_keywords_filename)
+    c += '![game-daily-today-keywords]({})\n\n'.format('../assets/img/gamedaily/' + fig_keywords_filename)
     c += '{}。\n\n'.format('，'.join(tags))
     c += '#### Summary 摘要\n\n'
-    # ===
-    c = a(c)
     for i in df.index:
         c += '##### [{}]({})\n\n'.format(df.loc[i, 'title'], df.loc[i, 'href'])
         c += '{}\n\n'.format(df.loc[i, 'brief'])
     c += '#### References 来源\n\n'
-    # ===
-    c = a(c)
     for i in source.index:
         c += '- {}：{} \n\n'.format(source.loc[i, 'name'], source.loc[i, 'url'])
     c += '#### Intro 简介\n\n'
-    c += '![ting\'s-game-daily-intro]({})\n\n'.format('../assets/img/gamedaily/0_game1night.png')
-    c += 'Here is "Ting\'s Game Daily" - a reference to the game. Produced by game1night, Tingbot is responsible for editing and publishing. Looking forward to better performance.\n\n'
+    c += 'Here is ting\'s Game Daily - a reference to the game. Produced by game1night, Tingbot is responsible for editing and publishing. Looking forward to better performance.\n\n'
     c += '早上好，这里是“叮！游戏日报”——收录有关游戏的参考资料。由game1night出品，由Tingbot编辑和发布。期待更好的表现。\n\n'
+    c += '![game-daily-intro]({})\n\n'.format('../assets/img/gamedaily/0_game1night.png')
     c += '#### Yestodays 目录\n\n'
-    # ===
-    c = a(c)
     for i in history.index:
-        c += '##### [Ting\'s Game Daily {}]({}) （当日收录{}条，累计收录{}条）\n\n'.format(history.loc[i, 'date_str'],
+        c += '##### [Game Daily {}]({}) （当日收录{}条，累计{}条）\n\n'.format(history.loc[i, 'date_str'],
                                                                               'https://tatatingting.github.io/post/' +
                                                                               history.loc[
                                                                                   i, 'date_str'] + '-game1night-' +
