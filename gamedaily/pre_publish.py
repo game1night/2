@@ -44,6 +44,7 @@ def add_lib(filename, d):
     df = pd.read_csv(path, encoding='utf-8-sig')
     clean(df)
     df = df.append(d, ignore_index=True)
+    clean(df)
     df.to_csv(path, encoding='utf-8-sig', index=False)
     return df
 
@@ -82,10 +83,7 @@ def pre_publish():
     df1 = df.category.value_counts()
     c1 = []
     for i in df1.index:
-        if i == df1.shape[0] - 1:
-            c1.append('{}({})。'.format(i, df1[i]))
-        else:
-            c1.append('{}({})，'.format(i, df1[i]))
+        c1.append('{}({})'.format(i, df1[i]))
 
     c2 = ''
     for i in df.brief:
@@ -126,7 +124,8 @@ def pre_publish():
     c += '---\n\n\n'
     c += 'Hi, morning! What did I do yesterday? What will I do today? Are there any impediments in my way?\n\n'
     c += '#### Overview 概述\n\n'
-    c += '本期共收录{}篇，涉及{}个主题：{}\n\n'.format(num_article, num_topic, ''.join(c1))
+    c += '本期共收录{}篇，涉及{}个主题：'.format(num_article, num_topic)
+    c += '{}。\n\n'.format('，'.join(c1))
     c += '#### Kew words 关键词\n\n'
     c += '![game-daily-today-keywords]({})\n\n'.format('../assets/img/gamedaily/' + fig_keywords_filename)
     c += '{}。\n\n'.format('，'.join(tags))
@@ -136,7 +135,7 @@ def pre_publish():
         c += '{}\n\n'.format(df.loc[i, 'brief'])
     c += '#### References 来源\n\n'
     for i in source.index:
-        c += '- {}：{} \n\n'.format(source.loc[i, 'name'], source.loc[i, 'url'])
+        c += '- {}：[{}]({}) \n\n'.format(source.loc[i, 'name'], source.loc[i, 'url'], source.loc[i, 'url'])
     c += '#### Intro 简介\n\n'
     c += 'Here is ting\'s Game Daily - a reference to the game. Produced by game1night, Tingbot is responsible for editing and publishing. Looking forward to better performance.\n\n'
     c += '早上好，这里是“叮！游戏日报”——收录有关游戏的参考资料。由game1night出品，由Tingbot编辑和发布。期待更好的表现。\n\n'
@@ -158,3 +157,4 @@ def pre_publish():
 
 if __name__ == '__main__':
     pre_publish()
+    print('今日文章输出完毕！')
