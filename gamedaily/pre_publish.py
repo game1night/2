@@ -31,6 +31,7 @@ print(path1)
 
 def clean(df):
     df.drop_duplicates(keep='last', inplace=True)
+    df.reset_index(drop=True, inplace=True)
 
 
 def read_lib(filename):
@@ -182,8 +183,8 @@ def pre_publish():
     c += '早上好，这里是“叮！游戏日报”——收录有关游戏的参考资料。由game1night出品，由Tingbot编辑和发布。期待更好的表现。\n\n'
     c += '![game-daily-intro]({})\n\n'.format('../assets/img/gamedaily/0_game1night.png')
     # （8）目录
-    c += '#### Yestodays 目录\n\n'
-    for i in history.index:
+    c += '#### Yestodays 近期收录\n\n'
+    for i in history.index[:7]:
         c += '##### [Game Daily {}]({}) （当日收录{}条，累计{}条）\n\n'.format(history.loc[i, 'date_str'],
                                                                               'https://tatatingting.github.io/post/' +
                                                                               history.loc[
