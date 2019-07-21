@@ -79,8 +79,45 @@ def update_history(df):
     return history
 
 
+d_topic = {
+    '新游': ['新的', 1],
+    '政策': ['新的', 1],
+    '预告': ['消息', 2],
+    '消息': ['消息', 2],
+    '公布': ['消息', 2],
+    '公告': ['消息', 2],
+    '热搜': ['热搜', 3],
+    '登陆': ['飞起', 4],
+    '发布': ['飞起', 4],
+    '年': ['历史', 5],
+    '月': ['历史', 5],
+    '日': ['历史', 5],
+    '%': ['数据', 6],
+    '?': ['讨论', 7],
+    '？': ['讨论', 7],
+    '什么': ['讨论', 7],
+    '怎么': ['讨论', 7],
+    '吗': ['讨论', 7],
+    '如何': ['讨论', 7],
+    '《': ['作品', 8],
+}
+
+
+def cal_topic(title, category, source):
+    for key in d_topic.keys():
+        if key in title:
+            return [key, d_topic.get(key)[0], d_topic.get(key)[1]]
+    if len(category) == 0:
+        return ['source', source, '999']
+    else:
+        return ['category', category, '999']
+
+
 def get_topic(df):
-    df1 = df.category.value_counts()
+    df['topic_list'] = df.apply(lambda row: cal_topic(row['title'], row['category'], row['source']), axis=1)
+    df['topic'] = df.topic_list.apply(lambda x: x[1])
+    df['topic_point'] = df.topic_list.apply(lambda x: x[2])
+    df1 = df.topic.value_counts()
     c1 = []
     for i in df1.index:
         c1.append('{}({})'.format(i, df1[i]))
@@ -123,14 +160,13 @@ def get_init_md():
 
 
 def update_md(c, filepath):
-        with open(filepath, 'a', encoding='utf-8-sig') as f:
-            f.write(c)
-        c = ''
-        return c
+    with open(filepath, 'a', encoding='utf-8-sig') as f:
+        f.write(c)
+    c = ''
+    return c
 
 
 def pre_publish():
-    
     # ====== 统计数据 ======
     # 获取 信息来源登记册
     source = read_lib('source.csv')
@@ -142,11 +178,13 @@ def pre_publish():
     num_article = df.shape[0]
     # 今日 文章涉及的主题
     c1, num_topic = get_topic(df)
+    df.sort_values(by=['topic_point', 'topic', 'title', 'source'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
     # 今日 关键词-摘要
     tags = get_tags(df)
     # 今日 关键词-词云图-标题
     fig_ciyun_path = get_ciyun(df)
-    
+
     # ====== 博客模板 ======
     # 新建空文档
     c, filepath = get_init_md()
@@ -171,7 +209,7 @@ def pre_publish():
     # （5）摘要
     c += '#### Summary 摘要\n\n'
     for i in df.index:
-        c += '##### [{}]({})\n\n'.format(df.loc[i, 'title'], df.loc[i, 'href'])
+        c += '##### {} | [{}]({})\n\n'.format(df.loc[i, 'topic'], df.loc[i, 'title'], df.loc[i, 'href'])
         c += '{}\n\n'.format(df.loc[i, 'brief'])
     # （6）来源
     c += '#### References 来源\n\n'
@@ -186,12 +224,12 @@ def pre_publish():
     c += '#### Yestodays 近期收录\n\n'
     for i in history.index[:7]:
         c += '##### [Game Daily {}]({}) （当日收录{}条，累计{}条）\n\n'.format(history.loc[i, 'date_str'],
-                                                                              'https://tatatingting.github.io/post/' +
-                                                                              history.loc[
-                                                                                  i, 'date_str'] + '-game1night-' +
-                                                                              history.loc[i, 'date_str'],
-                                                                              history.loc[i, 'num'],
-                                                                              history.loc[i, 'cumsum'])
+                                                                    'https://tatatingting.github.io/post/' +
+                                                                    history.loc[
+                                                                        i, 'date_str'] + '-game1night-' +
+                                                                    history.loc[i, 'date_str'],
+                                                                    history.loc[i, 'num'],
+                                                                    history.loc[i, 'cumsum'])
     # （9）尾声
     c += '感谢阅读。'
 
