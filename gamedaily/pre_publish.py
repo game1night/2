@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import jieba
 import jieba.analyse
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+import watermark
 
 # 解决画图中文乱码的问题
 mpl.rcParams['font.sans-serif'] = ['SimHei']
@@ -181,6 +182,9 @@ def get_ciyun(df):
     fig_ciyun_path = today + '-ciyun.png'
     wordcloud = WordCloud(background_color='white',
                           font_path=r'C:\Windows\Fonts\Deng.ttf',
+                          colormap='tab20',
+                          width=300,
+                          height=300,
                           stopwords=STOPWORDS).generate(c3)
     plt.imshow(wordcloud)
     plt.axis('off')
@@ -223,6 +227,8 @@ def pre_publish():
     tags = get_tags(df)
     # 今日 关键词-词云图-标题
     fig_ciyun_path = get_ciyun(df)
+    # 给图片加水印
+    watermark.auto_make_watermark2(fig_ciyun_path[1:], fig_ciyun_path[1:], 0, 20, 280)
 
     # ====== 博客模板 ======
     # 新建空文档
