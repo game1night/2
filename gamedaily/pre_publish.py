@@ -15,6 +15,8 @@ import jieba
 import jieba.analyse
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import watermark
+import topic_dict
+
 
 # 解决画图中文乱码的问题
 mpl.rcParams['font.sans-serif'] = ['SimHei']
@@ -22,12 +24,12 @@ mpl.rcParams['font.serif'] = ['SimHei']
 mpl.rcParams['axes.unicode_minus'] = False  # 解决保存图像是负号'-'显示为方块的问题,或者转换负号为字符串
 
 path0 = os.path.dirname(os.path.realpath(__file__))
-print(path0)
+# print(path0)
 path_1 = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-print(path_1)
+# print(path_1)
 today = time.strftime('%Y-%m-%d')
 path1 = os.path.join(path0, 'data')
-print(path1)
+# print(path1)
 
 
 def clean(df):
@@ -80,67 +82,7 @@ def update_history(df):
     return history
 
 
-d_topic = {
-
-    '出台': ['消息', 1],
-    '政策': ['消息', 1],
-    '概念图': ['人物', 2],
-    '开发': ['人物', 2],
-    '制作': ['人物', 2],
-    '0元': ['交易', 3],
-    '1元': ['交易', 3],
-    '2元': ['交易', 3],
-    '3元': ['交易', 3],
-    '4元': ['交易', 3],
-    '5元': ['交易', 3],
-    '6元': ['交易', 3],
-    '7元': ['交易', 3],
-    '8元': ['交易', 3],
-    '9元': ['交易', 3],
-    '价': ['交易', 3],
-    '奖金': ['交易', 3],
-    '买': ['交易', 3],
-    '卖': ['交易', 3],
-    '美元': ['交易', 3],
-    '欧元': ['交易', 3],
-    '千美元': ['交易', 3],
-    '千欧元': ['交易', 3],
-    '千元': ['交易', 3],
-    '万美元': ['交易', 3],
-    '万欧元': ['交易', 3],
-    '万元': ['交易', 3],
-    '亿美元': ['交易', 3],
-    '亿欧元': ['交易', 3],
-    '亿元': ['交易', 3],
-    '曾经': ['历史', 4],
-    '年': ['历史', 4],
-    '月': ['历史', 4],
-    '%': ['数据', 5],
-    '分析': ['数据', 5],
-    '环比': ['数据', 5],
-    '减少': ['数据', 5],
-    '同比': ['数据', 5],
-    '研究': ['数据', 5],
-    '增长': ['数据', 5],
-    '？': ['讨论', 6],
-    '?': ['讨论', 6],
-    '吗': ['讨论', 6],
-    '如何': ['讨论', 6],
-    '什么': ['讨论', 6],
-    '怎么': ['讨论', 6],
-    '登陆': ['发行', 7],
-    '发布': ['发行', 7],
-    '发售': ['发行', 7],
-    '曝光': ['发行', 7],
-    '热搜': ['发行', 7],
-    '上线': ['发行', 7],
-    '试玩': ['发行', 7],
-    '新游': ['发行', 7],
-    '预告': ['发行', 7],
-    '预热': ['发行', 7],
-    '《': ['作品', 8],
-
-}
+d_topic = topic_dict.d
 
 
 def cal_topic(title, category, source):
