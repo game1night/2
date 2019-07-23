@@ -188,8 +188,8 @@ def get_ciyun(df):
                           stopwords=STOPWORDS).generate(c3)
     plt.imshow(wordcloud)
     plt.axis('off')
-    wordcloud.to_file(os.path.join(path0, 'assets', 'img', 'gamedaily', fig_ciyun_path))
-    fig_ciyun_path = '../assets/img/gamedaily/' + fig_ciyun_path
+    fig_ciyun_path = os.path.join(path0, 'assets', 'img', 'gamedaily', fig_ciyun_path)
+    wordcloud.to_file(fig_ciyun_path)
     return fig_ciyun_path
 
 
@@ -227,8 +227,9 @@ def pre_publish():
     tags = get_tags(df)
     # 今日 关键词-词云图-标题
     fig_ciyun_path = get_ciyun(df)
+    print(fig_ciyun_path)
     # 给图片加水印
-    watermark.auto_make_watermark2(fig_ciyun_path[1:], fig_ciyun_path[1:], 0, 20, 280)
+    watermark.auto_make_watermark2(fig_ciyun_path, fig_ciyun_path, 0, 20, 280)
 
     # ====== 博客模板 ======
     # 新建空文档
@@ -249,7 +250,7 @@ def pre_publish():
     c += '{}。\n\n'.format('，'.join(c1))
     # （4）关键词
     c += '#### Kew words 关键词\n\n'
-    c += '![game-daily-today-keywords]({})\n\n'.format(fig_ciyun_path)
+    c += '![game-daily-today-keywords]({})\n\n'.format('../assets/img/gamedaily/'+today + '-ciyun.png')
     c += '{}。\n\n'.format('，'.join(tags))
     # （5）摘要
     c += '#### Summary 摘要\n\n'
