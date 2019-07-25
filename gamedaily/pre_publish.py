@@ -125,8 +125,8 @@ def get_ciyun(df):
     wordcloud = WordCloud(background_color='white',
                           font_path=r'C:\Windows\Fonts\Deng.ttf',
                           colormap='tab20',
-                          width=300,
-                          height=300,
+                          # width=300,
+                          # height=300,
                           stopwords=STOPWORDS).generate(c3)
     plt.imshow(wordcloud)
     plt.axis('off')

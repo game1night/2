@@ -57,7 +57,7 @@ def auto_make_watermark2(filepath, savefilepath, radio, x, y,
     im = Image.open(filepath)
 
     # 处理im
-    im = im.resize((300, 280))
+    im = im.resize((im.size[0], im.size[1]-20))
     im = cv2.cvtColor(np.asarray(im), cv2.COLOR_RGB2BGR)
     # im = cv2.resize(im, (300, 280), interpolation=cv2.INTER_CUBIC)
     im = cv2.copyMakeBorder(im, 0, 20, 0, 0, cv2.BORDER_CONSTANT, value=[256-j for j in color])
