@@ -16,7 +16,15 @@ import random
 
 
 # 颜色倾斜位置水印
-def auto_make_watermark1(filepath, savefilepath, radio, x, y, content, color):
+def auto_make_watermark1(
+        filepath,
+        savefilepath,
+        radio=0,
+        x=50,
+        y=50,
+        content="Posted on ting's blogs.",
+        color=(random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
+):
     """
     :param filepath: 图片路径
     :param content: 水印文字
@@ -43,9 +51,14 @@ def auto_make_watermark1(filepath, savefilepath, radio, x, y, content, color):
 
 
 # 扩充颜色倾斜位置水印
-def auto_make_watermark2(filepath, savefilepath, radio, x, y,
+def auto_make_watermark2(filepath,
+                         savefilepath,
+                         radio=0,
+                         x=50,
+                         y=50,
                          content="Posted on ting's blogs.",
-                         color=(random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))):
+                         color=(random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
+                         ):
     """
     :param filepath: 图片路径
     :param content: 水印文字
@@ -60,7 +73,7 @@ def auto_make_watermark2(filepath, savefilepath, radio, x, y,
     im = im.resize((im.size[0], im.size[1]-20))
     im = cv2.cvtColor(np.asarray(im), cv2.COLOR_RGB2BGR)
     # im = cv2.resize(im, (300, 280), interpolation=cv2.INTER_CUBIC)
-    im = cv2.copyMakeBorder(im, 0, 20, 0, 0, cv2.BORDER_CONSTANT, value=[256-j for j in color])
+    im = cv2.copyMakeBorder(im, 0, 20, 0, 0, cv2.BORDER_CONSTANT, value=[255-j for j in color])
     # im = cv2.copyMakeBorder(im, 0, 20, 0, 0, cv2.BORDER_REFLECT)
     im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
     # 处理watermark
@@ -68,7 +81,7 @@ def auto_make_watermark2(filepath, savefilepath, radio, x, y,
     draw = ImageDraw.Draw(watermark, 'RGBA')
     font = ImageFont.truetype("simsun.ttc", 18, encoding="unic", index=1)
     # x y 坐标
-    draw.text((x, y), content, font=font, fill=color)
+    draw.text((20, 180), content, font=font, fill=color)
     # 旋转ji度
     watermark = watermark.rotate(radio, Image.BICUBIC)
     # 透明的
@@ -78,24 +91,19 @@ def auto_make_watermark2(filepath, savefilepath, radio, x, y,
     # 合成新的图片
     image2 = Image.composite(watermark, im, watermark)
     image2.save(savefilepath)
+    print(color, [256-j for j in color])
 
 
 if __name__ == '__main__':
     time1 = time.time()
-    for i in ['2019-07-22-ciyun.png',
+    for i in ['2019-07-26-ciyun',
               ]:
-        filepath = './assets/img/gamedaily/{}'.format(i)
+        filepath = './assets/img/gamedaily/{}.png'.format(i)
         savefilepath = './assets/img/gamedaily/{}_'.format(i)
         text = "Posted on ting's blogs."
-        colors = [
-            # 'red', 'green', 'black',
-                  (random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))]
 
-        for color in colors:
-            savefilepath += '{}1.png'.format(color)
-            auto_make_watermark1(filepath, savefilepath, 0, 20, 280, text, color)
-            savefilepath += '{}2.png'.format(color)
-            auto_make_watermark2(filepath, savefilepath, 0, 20, 280, text, color)
+        auto_make_watermark1(filepath, savefilepath+'1.png')
+        auto_make_watermark2(filepath, savefilepath+'2.png')
 
     time2 = time.time()
     print('总共耗时：' + str(time2 - time1) + 's')
