@@ -76,6 +76,7 @@ def update_history(df):
     history = add_lib('history.csv', {'date': today, 'num': df.shape[0]})
     history.date = history.date.apply(lambda x: pd.to_datetime(x))
     history.sort_values(by='date', ascending=True, inplace=True)
+    history.drop_duplicates(subset='date', keep='last', inplace=True)
     history['cumsum'] = history.num.cumsum()
     history.sort_values(by='date', ascending=False, inplace=True)
     history['date_str'] = history.date.apply(lambda x: x.strftime('%Y-%m-%d'))
