@@ -180,7 +180,7 @@ def pre_publish():
     # 组织内容结构
     # （1）开头yaml信息
     c += '---\n'
-    c += 'title: "游戏日报-{}"\n'.format(today)
+    c += 'title: "游戏夜读-{}"\n'.format(today)
     c += 'categories: game daily\n'
     c += 'author: tingbot\n'
     c += '---\n\n\n'
@@ -206,7 +206,7 @@ def pre_publish():
     # （7）简介
     c += '#### Intro 简介\n\n'
     c += 'Here is ting\'s Game Daily - a reference to the game. Produced by game1night, Tingbot is responsible for editing and publishing. Looking forward to better performance.\n\n'
-    c += '早上好，这里是“叮！游戏日报”——收录有关游戏的参考资料。由game1night出品，由Tingbot编辑和发布。期待更好的表现。\n\n'
+    c += '早上好，这里是“叮！游戏夜读”——收录有关游戏的参考资料。由game1night出品，由Tingbot编辑和发布。期待更好的表现。\n\n'
     c += '![game-daily-intro]({})\n\n'.format('../assets/img/gamedaily/0_game1night.png')
     # （8）目录
     c += '#### Yestodays 近期收录\n\n'
