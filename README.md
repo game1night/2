@@ -10,4 +10,4 @@ Nowadays the news are about games. It would be changed in the near future since 
 
 There will be the list of the sources of the news meaning where are they pulled from. And almost every efforts would be spent for being more convenience and efficient.
 
-It becomes reality because so much news and so little time, also so lazy as I am. Well, the result has been posted on [ting's blogs](https://tatatingting.github.io/) and you can goto check out. If any issue, let me know. Thanks.
+It becomes reality because so much news and so little time, also so lazy as I am. Well, the result has been posted on [ting's blogs](https://tatatingting.github.io/) and you can goto check out. Since this project is built under the [LICENSE](./LICENSE) of GPL 3.0 so you can share it under it. If any issue, let me know. Thanks.
