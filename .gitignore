@@ -1,6 +1,6 @@
-data/
-assets/
-_posts/
+#data/
+#assets/
+#_posts/
 ~$topic-fix.xlsx
 
 # ============= before
