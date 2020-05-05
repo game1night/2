@@ -3,6 +3,9 @@
 #_posts/
 ~$topic-fix.xlsx
 
+# pycharm
+.idea
+
 # ============= before
 # Byte-compiled / optimized / DLL files
 __pycache__/
