@@ -166,12 +166,15 @@ def run():
     path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     path2 = os.path.dirname(os.path.realpath(__file__))
     # 初始化文件名
-    today = time.strftime('%Y-%m-%d')
+    # today = time.strftime('%Y-%m-%d')
+    today = (dt.datetime.now() + dt.timedelta(days=-1)).strftime('%Y-%m-%d')
     filename = '{}.csv'.format(today)
     filename = '{}_{}.csv'.format(today, time.time())
     # 搜集前的准备工作
-    date = pd.date_range('2020-04-10', '2020-04-17')  #2
-    print(date)
+    # date = pd.date_range('2020-05-31', '2020-05-21')  #2
+    today2 = (dt.datetime.now() + dt.timedelta(days=-8)).strftime('%Y-%m-%d')
+    date = pd.date_range(today2, today)
+    print(today, today2, date)
     # 开始搜集阅读
     dr = start_car(path)
     # 初始化标题行
